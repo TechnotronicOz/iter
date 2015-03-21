@@ -28,11 +28,6 @@ package iter // import "goast.net/x/iter"
 type I interface{}
 type Slice []I
 
-//Sorts the slice in-place using the related type sorter
-func (s Slice) Sort(less func(I, I) bool) {
-	sort.Sort(_Sorter{s, less})
-}
-
 //Returns true if all elements in the slice return true for the provided function
 func (s Slice) All(fn func(I) bool) bool {
 	for _, v := range s {
