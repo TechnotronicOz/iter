@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package iter
+package iter // import "goast.net/x/iter"
 
 //Impl Types: Requires a slice of any type (interface{})
 type I interface{}
