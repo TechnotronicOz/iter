@@ -66,6 +66,24 @@ func (s Slice) Each(fn func(I)) {
 	}
 }
 
+//Return a new slice of elements that have been removed from this slice
+func (s *Slice) Extract(fn func(I) bool) (removed Slice) {
+	pos := 0
+	kept := *s
+	for i := 0; i < len(kept); i++ {
+		if fn(kept[i]) {
+			removed = append(removed, kept[i])
+		} else {
+			kept[pos] = kept[i]
+			pos++
+		}
+	}
+
+	kept = kept[:pos:pos]
+	*s = kept
+	return removed
+}
+
 //Return the first element in the slice to return true for the provided function
 func (s Slice) First(fn func(I) bool) (match I, found bool) {
 	for _, v := range s {
@@ -86,22 +104,4 @@ func (s Slice) Where(fn func(I) bool) (result Slice) {
 		}
 	}
 	return result
-}
-
-//Return a new slice of elements that have been removed from this slice
-func (s *Slice) Extract(fn func(I) bool) (removed Slice) {
-	pos := 0
-	kept := *s
-	for i := 0; i < len(kept); i++ {
-		if fn(kept[i]) {
-			removed = append(removed, kept[i])
-		} else {
-			kept[pos] = kept[i]
-			pos++
-		}
-	}
-
-	kept = kept[:pos:pos]
-	*s = kept
-	return removed
 }
