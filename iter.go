@@ -105,3 +105,24 @@ func (s Slice) Where(fn func(I) bool) (result Slice) {
 	}
 	return result
 }
+
+//Merge the values of each of the slices with the values at the corresponding position of the other slices.
+// e.g. [1, 2, 3].Zip([4,5,6], [7,8,9]) == [[1,4,7], [2,5,8], [3, 6, 9]]
+func (s Slice) Zip(in ...Slice) (result []Slice) {
+	minLen := len(s)
+	for _, x := range in {
+		if len(x) < minLen {
+			minLen = len(x)
+		}
+	}
+
+	for i := 0; i < minLen; i++ {
+		row := Slice{s[i]}
+		for _, x := range in {
+			row = append(row, x[i])
+		}
+		result = append(result, row)
+	}
+
+	return
+}
