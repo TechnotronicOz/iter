@@ -96,6 +96,26 @@ func (s Slice) First(fn func(I) bool) (match I, found bool) {
 	return
 }
 
+// Reduce the slice of values down to a single value by passing each value into the fold function along with the current folded value
+func (s Slice) Fold(initial I, fn func(I, I) I) I {
+	folded := initial
+	for _, v := range s {
+		folded = fn(folded, v)
+	}
+	return folded
+}
+
+// Same as Fold, but iterates from the right side of the list
+func (s Slice) FoldR(initial I, fn func(I, I) I) I {
+	folded := initial
+
+	for i := len(s) - 1; i >= 0; i-- {
+		folded = fn(folded, s[i])
+	}
+
+	return folded
+}
+
 //Return a new slice of elements that return true for the provided function
 func (s Slice) Where(fn func(I) bool) (result Slice) {
 	for _, v := range s {
